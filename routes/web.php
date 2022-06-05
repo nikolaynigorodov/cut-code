@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
@@ -37,3 +38,6 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register');
     Route::post('/register_process', [RegisterController::class, 'register'])->name('register_process');
 });
+
+Route::get('/contacts', [ContactController::class, 'showContactForm'])->name('contacts');
+Route::post('/contact_form_process', [ContactController::class, 'ContactForm'])->name('contact_form_process');
