@@ -37,6 +37,9 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register');
     Route::post('/register_process', [RegisterController::class, 'register'])->name('register_process');
+
+    Route::get('/forgot', [LoginController::class, 'showForgotForm'])->name('forgot');
+    Route::post('/forgot_process', [LoginController::class, 'forgot'])->name('forgot_process');
 });
 
 Route::get('/contacts', [ContactController::class, 'showContactForm'])->name('contacts');
