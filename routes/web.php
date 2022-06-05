@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
@@ -26,11 +27,13 @@ Route::prefix('posts')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::post('/posts/comment/{id}', [CommentController::class, 'comment'])->name('comment');
 });
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login_process', [LoginController::class, 'login'])->name('login_process');
+
     Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register');
     Route::post('/register_process', [RegisterController::class, 'register'])->name('register_process');
 });

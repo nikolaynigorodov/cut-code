@@ -22,17 +22,20 @@
 
             <div>
                 <section class="rounded-b-lg mt-4">
-                    {{--<form method="POST" action="{{ route("comment", $post->id) }}">
+                    <form method="POST" action="{{ route("comment", $post->id) }}">
                         @csrf
+                        <div class="form-group">
+                            <label for="text">Comment</label>
+                            <textarea name="text" class="form-control @error('text') is-invalid @enderror" id="text" rows="3" placeholder="Ваш комментарий..." spellcheck="false"></textarea>
 
-                        <textarea name="text" class="w-full shadow-inner p-4 border-0 mb-4 rounded-lg focus:shadow-outline text-2xl @error('text') border-red-500 @enderror" placeholder="Ваш комментарий..." spellcheck="false"></textarea>
-
-                        @error('text')
-                        <p class="text-red-500">{{ $message }}</p>
-                        @enderror
-
-                        <button type="submit" class="font-bold py-2 px-4 w-full bg-purple-400 text-lg text-white shadow-md rounded-lg ">Написать</button>
-                    </form>--}}
+                            @error('text')
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
+                        </div>
+                        <button type="submit" class="font-bold py-2 px-4 w-full bg-purple-400 text-lg text-white shadow-md rounded-lg mt-3">Написать</button>
+                    </form>
 
                     <div id="task-comments" class="pt-4">
                         @foreach($post->comments as $comment)
