@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ContactFormRequest;
-use App\Mail\ContactForm;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
+use App\Jobs\ContactEmailJob;
 
 class ContactController extends Controller
 {
@@ -16,7 +14,7 @@ class ContactController extends Controller
 
     public function ContactForm(ContactFormRequest $request)
     {
-        Mail::to('nikolaynigorodov@gmail.com')->send(new ContactForm($request->validated()));
+        dispatch(new ContactEmailJob($request->validated()));
 
         return redirect(route('contacts'));
     }
