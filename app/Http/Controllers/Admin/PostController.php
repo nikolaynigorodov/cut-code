@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\PostFormRequest;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -14,7 +16,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::orderBy("created_at", "DESC")->paginate(10);
+
+        return view('admin.posts.index', [
+            "posts" => $posts,
+        ]);
     }
 
     /**
@@ -24,29 +30,21 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.posts.create', []);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param PostFormRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostFormRequest $request)
     {
-        //
-    }
+        $data = $this->createAndUpdate($request);
+        Post::create($data);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return redirect(route('admin.posts.index'));
     }
 
     /**
@@ -57,19 +55,45 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        return view('admin.posts.create', [
+            'post' => $post
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  PostFormRequest  $request
+     */
+    private function createAndUpdate(PostFormRequest $request)
+    {
+        $data = $request->validated();
+
+        if($request->has('thumbnail')) {
+            $thumbnail = str_replace("public/posts", "", $request->file('thumbnail')->store('public/posts'));
+            $data['thumbnail'] = $thumbnail;
+        }
+
+        return $data;
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  PostFormRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PostFormRequest $request, $id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $data = $this->createAndUpdate($request);
+
+        $post->update($data);
+
+        return redirect(route('admin.posts.index'));
     }
 
     /**
@@ -80,6 +104,8 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Post::destroy($id);
+
+        return redirect(route('admin.posts.index'));
     }
 }
