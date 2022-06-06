@@ -34,9 +34,9 @@ class FileUploadCast implements CastsAttributes
     public function set($model, $key, $value, $attributes)
     {
         $directory = Str::of(get_class($model))->afterLast("\\")
-            ->lower()
-            ->plural()
-            ->prepend('public/');
+            ->lower() // Делает модель с маленькой буквы Post -> post
+            ->plural() // Добавляет к модели окончание "s" post -> posts
+            ->prepend('public/'); // Получаем путь public/posts
 
         if(!$value instanceof \Illuminate\Http\UploadedFile) {
             if(is_string($value)) {
