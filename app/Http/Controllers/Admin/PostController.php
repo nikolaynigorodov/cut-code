@@ -41,8 +41,7 @@ class PostController extends Controller
      */
     public function store(PostFormRequest $request)
     {
-        $data = $this->createAndUpdate($request);
-        Post::create($data);
+        Post::create($request->validated());
 
         return redirect(route('admin.posts.index'));
     }
@@ -89,9 +88,7 @@ class PostController extends Controller
     public function update(PostFormRequest $request, $id)
     {
         $post = Post::findOrFail($id);
-        $data = $this->createAndUpdate($request);
-
-        $post->update($data);
+        $post->update($request->validated());
 
         return redirect(route('admin.posts.index'));
     }

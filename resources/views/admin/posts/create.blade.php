@@ -38,7 +38,7 @@
 
                 @if(isset($post) && $post->thumbnail)
                     <div>
-                        <img class="h-64 w-64" src="/storage/posts{{ $post->thumbnail }}">
+                        <img class="h-64 w-64" src="{{ $post->thumbnail }}">
                     </div>
                 @endif
 
