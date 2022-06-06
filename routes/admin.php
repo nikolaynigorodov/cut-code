@@ -13,7 +13,7 @@ Route::middleware('guest:admin')->group(function () {
     Route::post('login_process', [AuthController::class, 'login'])->name('login_process');
 });
 
-Route::middleware('auth:admin')->group(function () {
+Route::middleware('admin_auth:admin')->group(function () {
     Route::resource('posts', PostController::class);
     Route::resource('admin_users', \App\Http\Controllers\Admin\AdminUserController::class);
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
